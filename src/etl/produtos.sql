@@ -1,6 +1,6 @@
  
  WITH tb_join AS(
- 
+ /* 01 */
     SELECT DISTINCT
             T2.seller_id,
             T3.*
@@ -18,14 +18,14 @@
     AND T2.seller_id IS NOT NULL
 
  ),
- 
+ /* 02 */
  tb_summary as (
      SELECT seller_id,
             AVG(COALESCE(product_photos_qty, 0)) AS avgFotos,
             AVG(product_weight_g * product_length_cm * product_height_cm) AS avgVolumeProduto, 
             MIN(product_weight_g * product_length_cm * product_height_cm) AS minVolumeProduto,
             MAX(product_weight_g * product_length_cm * product_height_cm) AS maxVolumeProduto,
-        
+ /* 03  */       
             COUNT(DISTINCT CASE WHEN product_category_name = 'cama_mesa_banho' THEN product_id END) / COUNT(DISTINCT product_id) AS pctcama_mesa_banho,
             COUNT(DISTINCT CASE WHEN product_category_name = 'beleza_saude' THEN product_id END) / COUNT(DISTINCT product_id) AS pctbeleza_saude,
             COUNT(DISTINCT CASE WHEN product_category_name = 'esporte_lazer' THEN product_id END) / COUNT(DISTINCT product_id) AS pctesporte_lazer,
